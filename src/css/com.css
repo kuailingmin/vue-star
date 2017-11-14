@@ -1,0 +1,13 @@
+body{
+    background: #f0f0f0;
+    min-width: 1200px;
+}
+
+.clearfloat:after {
+    content:".";
+    clear:both;
+    display:block;
+    height:0;
+    overflow:hidden;
+    visibility:hidden;
+  }
