@@ -7,7 +7,7 @@ module.exports = {
     devtool: '',
     entry: {
         'main': path.resolve(__dirname, './src/main.js'),
-        'comm': ['vue', 'axios', 'vuex', 'vue-router', 'vue-lazyload', 'qs', 'iview']
+        'comm': ['vue', 'axios', 'vuex', 'vue-router', 'vue-lazyload', 'qs', 'element-ui']
     },
     output: {
         path: path.resolve(__dirname, ''),//webpack打包的时候'./dist/'
@@ -16,7 +16,7 @@ module.exports = {
     },
     module: {
         rules: [{
-                test: /\.(png|jpg|gif|svg|ttf|woff|eot)$/,
+                test: /\.(png|jpg|gif|svg|ttf|woff|woff2|eot)$/,
                 use: ['url-loader?limit=8192&name=images/[name].[ext]']
             },
             {
@@ -28,9 +28,9 @@ module.exports = {
                 use: ['babel-loader'],
                 exclude: /node_modules/
             }, {
-                test: /\.(less|css)$/,
+                test: /\.(css|sass)$/,
                 use: ExtractTextPlugin.extract({
-                    use: ['css-loader', 'less-loader'],
+                    use: ['css-loader','sass-loader'],
                     fallback: 'style-loader'
                 })
             },
@@ -50,7 +50,7 @@ module.exports = {
         //     }
         // }),
         new webpack.HotModuleReplacementPlugin(), //热启动插件必加
-        // new BundleAnalyzerPlugin({ 
+        // new BundleAnalyzerPlugin({
         //     analyzerMode: 'server',
         //     analyzerHost: '127.0.0.1',
         //     analyzerPort: '3030',

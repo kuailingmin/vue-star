@@ -5,11 +5,5 @@ export default {
      */
     TOKEN: 'token',
     USER: 'user'
-    /**
-     * 币相关的key
-     */
-
-    /**
-     * 新闻相关的key
-     */
+    
 }

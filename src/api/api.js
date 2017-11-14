@@ -1,16 +1,7 @@
 import axios from 'axios'
-import qs from 'qs'
 import log from '../utils/log.js'
 import router from '../router/index.js'
-import { Message } from 'iview'
-import { Notice } from 'iview'
-Message.config({
-    top: 400,
-    duration: 3
-})
-Notice.config({
-    top: 60
-});
+import Toast from '../utils/Toast.js'
 
 var axiosObejct = axios.create({
     timeout: 30000,
@@ -18,19 +9,20 @@ var axiosObejct = axios.create({
 })
 // http request 拦截器
 axiosObejct.interceptors.request.use((config) => {
-    //let token = sessionStorage.getItem('token')
+    let token = localStorage.getItem('token')
     config.headers = (
         Object.assign(
             (config.headers ? config.headers : {}), {
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                'Authorization': 'Bearer ' + token
             })
     )
+
     // 打印请求路径
     log.log('请求地址:' + config.url)
 
     // 打印请求查询参数
     if (config.params) {
-        log.log('查询参数:' + qs.stringify(config.params))
+        log.log('查询参数:' + this.$qs.stringify(config.params))
     }
 
     // 打印post请求体
@@ -53,13 +45,16 @@ axiosObejct.interceptors.response.use(
         var headers = resp.headers
         switch (resp.status) {
             case 200:
-                let code = resp.data.status.code
-                let msg = resp.data.status.msg
-                if (code !== '00000') {
-                    Notice.error({
-                        title: code,
-                        desc: msg
-                    });
+                let code = resp.data.code
+                let msg = resp.data.message
+                if (code === 4001) {
+                    //store.commit(LOGOUT)
+                    Toast.error(msg)
+                } else if (code === 10000) {
+                    router.replace('/login')
+                    Toast.error(msg)
+                } else if (code !== 0) {
+                    Toast.error(msg)
                 }
                 return resp.data
             case 400:
@@ -68,7 +63,7 @@ axiosObejct.interceptors.response.use(
                 return Promise.reject('error') // 返回接口返回的错误信息
             case 401:
                 // 返回 401 清除token信息并跳转到登录页面
-                window.location.href = 'http://member.koudaiqifu.cn/apply_store/index';
+                window.location.href = '';
                 break
             case 404:
                 log.log('404访问的地址不存在')
@@ -82,7 +77,7 @@ axiosObejct.interceptors.response.use(
     (error) => {
         switch (error.response.status) {
             case 401:
-                window.location.href = 'http://member.koudaiqifu.cn/apply_store/index';
+                 window.location.href = '';
                 break;
             default:
                 log.log('出错了：\n')

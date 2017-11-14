@@ -1,33 +1,39 @@
-
 <template>
-    <div class="page-wrap">
-        <transition enter-active-class="animated fadeIn">
-            <router-view></router-view>
-        </transition>
+    <div>
+           <div class="header"></div>
+            <transition enter-active-class="animated fadeIn">
+                <router-view></router-view>
+            </transition>
+        </div>
     </div>
 </template>
-<script>
 
+<script>
 export default {
     data() {
         return {
-           
         }
     },
-    components:{
-        
+    created() {
+       var token = this.$route.query.access_token;
+       if (token) {
+           localStorage.setItem('token',token)
+       }
     },
-    created(){
-        
+    methods: {
+       
+        transitionEvent() {
 
-    },
-     methods: {
-          
+        }
     }
 }
 </script>
-<style lang="less" scoped>
 
-
+<style lang="scss" scoped>
+   .header{
+       width: 100%;
+       height: 30px;
+       background: burlywood;
+   }
 
 </style>

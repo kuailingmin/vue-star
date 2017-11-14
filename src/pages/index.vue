@@ -1,18 +1,14 @@
 <template>
-    <h1>Hello</h1>
+   <h1>121212</h1>
+
 </template>
 <script>
-export default {
-    data(){
-        return {
-            
-        }
-    },
-    created(){
-
-    },
-    methods:{
-
+    export default {
+    
     }
-}
 </script>
+<style lang="scss" scoped>
+
+</style>
+
+
